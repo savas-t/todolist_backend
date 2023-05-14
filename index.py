@@ -77,7 +77,7 @@ def handle_list(list_id):
         return jsonify([entry for entry in entries if entry["list_id"] == list_id])
 
     # Handle DELETE request & delete list with given id
-    if request.method == "POST":
+    if request.method == "DELETE":
         lists.remove(list)
 
         return "", 200
@@ -114,7 +114,7 @@ def add_entry(list_id):
     # Add new entry to entries
     entries.append(new_entry)
 
-    return "", 200
+    return jsonify(new_entry), 200
 
 
 # Update or delete an entry
@@ -149,11 +149,13 @@ def handle_entry(list_id, entry_id):
         if key_exists == False:
             return "There is no entry key which matches your keys", 400
 
+        return jsonify(entry), 200
+
     # Handle DELETE request & delete entry
     if request.method == "DELETE":
         entries.remove(entry)
 
-    return "", 200
+        return "", 200
 
 
 if __name__ == "__main__":
