@@ -1,0 +1,203 @@
+openapi: 3.0.3
+
+info:
+  title: Todo-Liste REST API
+  description: REST-Schnittstelle für eine Todo-Listen-Verwaltung
+  version: 0.0.1
+  contact:
+    email: savas-t@outlook.com
+
+servers:
+  - url: http://localhost:5000
+
+paths:
+  /todo-list:
+    post:
+      summary: Neue Todo-Liste erstellen
+      description: Erstellt eine neue Todo-Liste.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name der neuen Liste
+              required:
+                - name
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/List'
+        '400':
+          description: 'Daten fehlerhaft'
+
+  /todo-list/{list_id}:
+    get:
+      summary: Alle Einträge einer Liste anzeigen
+      description: Liefert alle Einträge einer Todo-Liste zurück.
+      parameters:
+        - in: path
+          name: list_id
+          description: ID der gewünschten Liste
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entry'
+        '404':
+          description: ID fehlerhaft
+    delete:
+      summary: Liste Löschen
+      description: Löscht eine komplette Liste mit allen Einträgen.
+      parameters:
+        - in: path
+          name: list_id
+          description: ID der gewünschten Liste
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: ID fehlerhaft
+  /todo-list/{list_id}/entry:
+    post:
+      summary: Eintrag zu Liste hinzufügen
+      description: Fügt einen Eintrag zu einer bestehenden Todo-Liste hinzu.
+      parameters:
+        - in: path
+          name: list_id
+          description: ID der gewünschten Liste
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name des Eintrags
+                beschreibung:
+                  type: string
+                  description: Inhalt des Eintrags
+              required:
+                - name
+                - beschreibung
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entry'
+        '404':
+          description: ID fehlerhaft
+        '400':
+          description: Daten fehlerhaft
+  /todo-list/{list_id}/entry/{entry_id}:
+    put:
+      summary: Eintrag aktualisieren
+      description: Aktualisiert einen bestehenden Eintrag
+      parameters:
+        - in: path
+          name: list_id
+          description: ID der gewünschten Liste
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: entry_id
+          description: ID des gewünschten Eintrags
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name des Eintrags
+                beschreibung:
+                  type: string
+                  description: Inhalt des Eintrags
+              required:
+                - name
+                - beschreibung
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entry'
+        '404':
+          description: List-ID oder Eintrag-ID fehlerhaft
+        '400':
+          description: Daten fehlerhaft
+    delete:
+      summary: Eintrag löschen
+      description: Löscht einen einzelnen Eintrag einer Todo-Liste.
+      parameters:
+        - in: path
+          name: list_id
+          description: ID der gewünschten Liste
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: entry_id
+          description: ID des gewünschten Eintrags
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: List-ID oder Eintrag-ID fehlerhaft
+
+components:
+  schemas:
+    Entry:
+      type: object
+      properties:
+        id:
+          type: string
+        list_id:
+          type: string
+        name:
+          type: string
+        beschreibung:
+          type: string
+    List:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
