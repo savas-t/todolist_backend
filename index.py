@@ -125,14 +125,14 @@ def handle_entry(list_id, entry_id):
 
     # If list is None, there is no list with given id
     if list == None:
-        return 'There is no list with id "' + list_id + '"', 404
+        return "There is no list with id '" + list_id + '"', 404
 
     # Find entry of according entry id
     entry = get_entry(entry_id)
 
     # If entry is None, there is no entry with given id
     if entry == None:
-        return 'There is no entry with id "' + entry_id + '"', 404
+        return "There is no entry with id '" + entry_id + '"', 404
 
     # Grab request data
     request_data = request.get_json(force=True)
