@@ -11,6 +11,19 @@ servers:
   - url: http://localhost:5000
 
 paths:
+  /todo-lists:
+    get:
+      summary: Alle Listen abfragen
+      description: Gibt alle Todo-Listen zurück.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/List'
   /todo-list:
     post:
       summary: Neue Todo-Liste erstellen

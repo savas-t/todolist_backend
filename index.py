@@ -43,6 +43,12 @@ def get_entry(entry_id):
 ## ENDPOINTS ##
 
 
+# Return json of all lists
+@app.route("/todo-lists", methods=["GET"])
+def list_index():
+    return jsonify(lists), 200
+
+
 # Add new list to lists
 @app.route("/todo-list", methods=["POST"])
 def add_list():
@@ -70,7 +76,7 @@ def handle_list(list_id):
 
     # If list is None, there is no list with given id
     if list == None:
-        return 'There is no list with id "' + list_id + '"', 404
+        return "There is no list with id '" + list_id + "'", 404
 
     # Handle GET request & show list entries
     if request.method == "GET":
@@ -91,7 +97,7 @@ def add_entry(list_id):
 
     # If list is None, there is no list with given id
     if list == None:
-        return 'There is no list with id "' + list_id + '"', 404
+        return "There is no list with id '" + list_id + "'", 404
 
     # Grab request data
     request_data = request.get_json(force=True)
