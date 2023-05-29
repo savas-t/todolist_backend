@@ -80,7 +80,12 @@ def handle_list(list_id):
 
     # Handle GET request & show list entries
     if request.method == "GET":
-        return jsonify([entry for entry in entries if entry["list_id"] == list_id])
+        return jsonify(
+            {
+                "name": list["name"],
+                "entries": [entry for entry in entries if entry["list_id"] == list_id],
+            }
+        )
 
     # Handle DELETE request & delete list with given id
     if request.method == "DELETE":

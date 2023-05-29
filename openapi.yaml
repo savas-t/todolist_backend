@@ -69,6 +69,8 @@ paths:
               schema:
                 type: object
                 properties:
+                  name:
+                    type: string
                   entries:
                     type: array
                     items:
