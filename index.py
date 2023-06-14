@@ -89,7 +89,13 @@ def handle_list(list_id):
 
     # Handle DELETE request & delete list with given id
     if request.method == "DELETE":
+        # Remove the list first
         lists.remove(list)
+
+        # Remove all list entries with according list id
+        for entry in entries:
+            if entry["list_id"] == list["id"]:
+                entries.remove(entry)
 
         return "", 200
 
@@ -171,5 +177,4 @@ def handle_entry(list_id, entry_id):
 
 if __name__ == "__main__":
     # start Flask server
-    app.debug = True
     app.run(host="0.0.0.0", port=5000, debug=True)
